@@ -38,7 +38,7 @@ export default class App extends React.Component {
               }}
             >
               <View style={{}}>
-                <Text style={{ fontSize: 26 }}>@</Text>
+                <Text style={{ fontSize: 25 }}>@</Text>
               </View>
               <Text style={{ fontSize: 22, flex: 1, textAlign: "center" }}>
                 {item}
