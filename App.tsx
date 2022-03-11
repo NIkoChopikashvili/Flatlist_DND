@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { Component } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -13,32 +13,28 @@ import { getRandomColor } from "./utils/randomColors";
 
 const colorMap: any = {};
 
-export default class App extends React.Component {
-  state = {
-    dragging: false,
-    data: Array.from(Array(51), (_, i) => {
-      colorMap[i] = getRandomColor();
-      return i;
-    }),
-  };
-
+export default class App extends Component {
   _panResponder: PanResponderInstance;
   point = new Animated.ValueXY();
 
   constructor(props: any) {
     super(props);
 
+    this.state = {
+      dragging: false,
+      data: Array.from(Array(51), (_, i) => {
+        colorMap[i] = getRandomColor();
+        return i;
+      }),
+    };
+
     this._panResponder = PanResponder.create({
-      // Ask to be the responder:
       onStartShouldSetPanResponder: (evt, gestureState) => true,
       onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
-        // The gesture has started. Show visual feedback so the user knows
-        // what is happening!
-        // gestureState.d{x,y} will be set to zero now
         this.setState({ dragging: true });
       },
       onPanResponderMove: (evt, gestureState) => {
@@ -50,13 +46,8 @@ export default class App extends React.Component {
       onPanResponderRelease: (evt, gestureState) => {
         this.setState({ dragging: false });
       },
-      onPanResponderTerminate: (evt, gestureState) => {
-        // Another component has become the responder, so this gesture
-        // should be cancelled
-      },
+      onPanResponderTerminate: (evt, gestureState) => {},
       onShouldBlockNativeResponder: (evt, gestureState) => {
-        // Returns whether this component should block native components from becoming the JS
-        // responder. Returns true by default. Is currently only supported on android.
         return true;
       },
     });
